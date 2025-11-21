@@ -1,8 +1,11 @@
-import { app } from "./Firebase/Firebase-config.js";
+import React from "react";
+import { BrowserRouter as Router } from "react-router-dom";
+import AppRouter from "./router/AppRouter";
 
-function App() {
-  console.log("Firebase App:",app);
-  return <div style={{fontSize: "24px", padding: "20px" }}>Firebase läuft </div>;
+export default function App() {
+  return (
+    <Router>
+      <AppRouter />
+    </Router>
+  );
 }
-
-export default App;

@@ -1,0 +1,13 @@
+.topbar {
+  height: 60px;
+  background: #2a2a2a;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding: 0 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.03);
+  color: var(--text);
+}
+.brand { font-weight:700; font-size:18px; }
+.nav-actions { display:flex; gap:12px; align-items:center; }
+.btn.small { padding:6px 10px; border-radius:6px; background:var(--accent); border:none; color:white; cursor:pointer; }

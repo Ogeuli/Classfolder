@@ -1,0 +1,31 @@
+:root{
+  --bg:#1e1e1e;
+  --panel:#2a2a2a;
+  --muted:#9aa0a6;
+  --accent:#2b90ff;
+  --white:#ffffff;
+  --radius:8px;
+}
+*{box-sizing:border-box}
+body{margin:0;font-family:Inter,system-ui,Segoe UI,Roboto,Arial;background:var(--bg);color:var(--white);height:100vh}
+.topbar{height:64px;background:var(--panel);display:flex;align-items:center;justify-content:space-between;padding:0 20px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.brand{font-weight:700}
+.layout{display:flex;height:calc(100vh - 64px)}
+.sidebar{width:260px;background:var(--panel);padding:12px;border-right:1px solid rgba(255,255,255,0.03)}
+.content{flex:1;padding:18px;overflow:auto}
+.login-card{background:#111;border-radius:var(--radius);padding:18px;width:380px;margin:0 auto}
+.login-card input{width:100%;padding:10px;margin-top:10px;border-radius:6px;background:#0f0f10;border:1px solid rgba(255,255,255,0.04);color:var(--white)}
+.row{display:flex;gap:8px;margin-top:12px}
+.btn{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:8px 12px;border-radius:6px;color:var(--white);cursor:pointer}
+.btn.primary{background:var(--accent);border:0}
+.folder-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:12px}
+.folder-card{background:var(--panel);padding:14px;border-radius:8px;cursor:pointer}
+.file-item{display:flex;justify-content:space-between;align-items:center;padding:10px;border-radius:8px;background:rgba(255,255,255,0.02);margin-bottom:8px}
+.file-left{display:flex;gap:12px;align-items:center}
+.file-icon{width:44px;height:44px;border-radius:8px;background:rgba(255,255,255,0.03);display:flex;align-items:center;justify-content:center}
+.small{color:var(--muted);font-size:12px}
+.empty{padding:18px;background:rgba(255,255,255,0.02);border-radius:8px}
+.uploader input{display:inline-block}
+.bottom-new{text-align:center;margin-top:22px}
+.sidebar .folder-row{padding:10px;border-radius:6px;margin-bottom:6px;cursor:pointer;background:transparent}
+.sidebar .folder-row:hover{background:rgba(255,255,255,0.02)}

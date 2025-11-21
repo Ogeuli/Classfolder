@@ -1,0 +1,40 @@
+.home-container {
+  padding: 30px;
+  color: var(--text);
+}
+
+.home-title {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: var(--accent);
+}
+
+.home-subtitle {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+  color: #ccc;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 25px;
+}
+
+.home-card {
+  background: #2f2f2f;
+  border: 1px solid #3b3b3b;
+  padding: 20px;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.home-card:hover {
+  background: #393939;
+  transform: translateY(-3px);
+}
+
+.home-card h2 {
+  margin-bottom: 10px;
+}
