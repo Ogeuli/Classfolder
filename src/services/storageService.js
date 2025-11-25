@@ -1,5 +1,6 @@
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { storage } from "./firebaseService";
+import { collection, addDoc } from "firebase/firestore";
+import { storage, db } from "./firebaseService";
 import { PDFDocument } from "pdf-lib";
 
 /** Upload a File/Blob to given storage path and return public URL */
@@ -27,4 +28,28 @@ export async function imagesToPdfBlob(imageFiles) {
   }
   const bytes = await pdfDoc.save();
   return new Blob([bytes], { type: "application/pdf" });
+}
+// ======================
+// UPLOAD DRAWING
+// ======================
+export async function uploadDrawing(folderId, blob) {
+  const filename = `drawing_${Date.now()}.png`;
+
+  const storageRef = ref(storage, `uploads/${folderId}/${filename}`);
+
+  await uploadBytes(storageRef, blob);
+
+  const url = await getDownloadURL(storageRef);
+
+  // Datei in Firestore eintragen
+  const filesRef = collection(db, "folders", folderId, "files");
+
+  await addDoc(filesRef, {
+    name: filename,
+    type: "drawing",
+    url,
+    createdAt: Date.now()
+  });
+
+  return url;
 }

@@ -9,7 +9,8 @@ import {
   getDocs,
   serverTimestamp
 } from "firebase/firestore";
-import { db } from "./firebaseService";
+import { storage, db } from "./firebaseService";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 /** Classes collection: key = classCode */
 export async function createClass(code, name, owner) {
@@ -54,4 +55,48 @@ export async function getFileDoc(classCode, folderId, fileId) {
   const d = doc(db, "classes", classCode, "folders", folderId, "files", fileId);
   const snap = await getDoc(d);
   return snap.exists() ? { id: snap.id, ...snap.data() } : null;
+}
+
+// ======================
+// CLASS JOINING
+// ======================
+export async function joinClass(code, name) {
+  // Prüfe, ob die Klasse existiert
+  const classRef = doc(db, "classes", code);
+  const classSnap = await getDoc(classRef);
+
+  if (!classSnap.exists()) {
+    throw new Error("Diese Klasse existiert nicht");
+  }
+
+  // User-Objekt speichern
+  const userObj = { name, code };
+
+  localStorage.setItem("m3c_user", JSON.stringify(userObj));
+
+  return true;
+}
+// ======================
+// UPLOAD DRAWING
+// ======================
+export async function uploadDrawing(folderId, blob) {
+  const filename = `drawing_${Date.now()}.png`;
+
+  const storageRef = ref(storage, `uploads/${folderId}/${filename}`);
+
+  await uploadBytes(storageRef, blob);
+
+  const url = await getDownloadURL(storageRef);
+
+  // Datei in Firestore eintragen
+  const filesRef = collection(db, "folders", folderId, "files");
+
+  await addDoc(filesRef, {
+    name: filename,
+    type: "drawing",
+    url,
+    createdAt: Date.now()
+  });
+
+  return url;
 }

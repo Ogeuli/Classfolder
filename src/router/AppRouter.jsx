@@ -11,7 +11,7 @@ import Notes from "../pages/Notes";
 import Draw from "../pages/Draw";
 import Scanner from "../pages/Scanner";
 import FileViewPage from "../pages/FileView";
-import WebcamPage from "../pages/Webcampage";
+import Webcampage from "../pages/webcampage/Webcamepage";
 
 function requireAuth() {
   const user = localStorage.getItem("m3c_user");
@@ -57,7 +57,7 @@ export default function AppRouter() {
       />
       <Route
         path="/webcam/:folderId"
-        element={requireAuth() ? <WebcamPage /> : <Navigate to="/" />}
+        element={requireAuth() ? <Webcampage /> : <Navigate to="/" />}
       />
     </Routes>
   );
