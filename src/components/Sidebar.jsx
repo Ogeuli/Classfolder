@@ -8,9 +8,9 @@ export default function Sidebar({ folders = [], onNewFolder }) {
       <div className="sidebar-title">Ordner</div>
       <div className="folders">
         {folders.map(f => (
-          <Link key={f.id} to={/folder/${f.id}} className="folder-row">
+          <Link key={f.id} to={`/folder/${f.id}`} className="folder-row">
             <div>{f.name}</div>
-            <div className="muted">{new Date(f.createdAt?.seconds ? f.createdAt.seconds*1000 : Date.now()).toLocaleString()}</div>
+            <div className="muted">{new Date(f.createdAt?.seconds ? f.createdAt.seconds * 1000 : Date.now()).toLocaleString()}</div>
           </Link>
         ))}
       </div>

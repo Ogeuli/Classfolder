@@ -4,6 +4,7 @@ import Navbar from "../components/Navbar/Navbar";
 import Sidebar from "../components/Sidebar/Sidebar";
 import { getFiles, getFolders } from "../services/firestoreService";
 import FileUploader from "../components/FileUploader";
+import {createFolder} from "../services/firestoreService";
 
 export default function Folderview() {
   const { folderId } = useParams();

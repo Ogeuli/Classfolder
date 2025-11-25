@@ -20,8 +20,8 @@ export default function Login() {
   async function handleCreate() {
     if (!name) return alert("Bitte Namen eingeben.");
     const newCode = generateClassCode();
-    await createClass(newCode, ${name}'s Klasse, name);
-    localStorage.setItem("m3c_user", JSON.stringify({ name, code: newCode }));
+    await createClass(newCode, `${name}'s Klasse`, name); 
+      localStorage.setItem("m3c_user", JSON.stringify({ name, code: newCode }));
     alert("Neue Klasse erstellt: " + newCode + "\nTeile den Code mit Mitschülern.");
     navigate("/home");
   }

@@ -12,7 +12,7 @@ export default function WebcamCapture({ onCapture }) {
     // convert dataUrl to blob
     fetch(dataUrl)
       .then(res => res.blob())
-      .then(blob => onCapture && onCapture(new File([blob], cam_${Date.now()}.jpg, { type: "image/jpeg" })));
+      .then(blob => onCapture && onCapture(new File([blob], `cam_${Date.now()}.jpg`, { type: "image/jpeg" })));
   }
 
   return (

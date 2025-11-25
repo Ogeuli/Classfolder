@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import {useState} from "react";
 import { useParams } from "react-router-dom";
 import CanvasBoard from "../components/CanvasBoard/CanvasBoard";
 import { uploadBlobToPath } from "../services/storageService";
@@ -14,10 +14,10 @@ export default function Notes() {
     // base64 -> blob
     const res = await fetch(base64png);
     const blob = await res.blob();
-    const filename = note_${Date.now()}.png;
-    const path = classes/${user.code}/${folderId}/${Date.now()}_${filename};
+    const filename = `note_${Date.now()}`.png;
+    const path = `classes/${user.code}/${folderId}/${Date.now()}_${filename}`;
     const url = await uploadBlobToPath(path, blob);
-    await addFileDoc(user.code, folderId, { name: filename, url, type: "image/png", storageName: ${Date.now()}_${filename} });
+    await addFileDoc(user.code, folderId, { name: filename, url, type: "image/png", storageName:`${Date.now()}_${filename}` });
     setSaving(false);
     alert("Notiz gespeichert.");
   }

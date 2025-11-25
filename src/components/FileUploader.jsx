@@ -11,9 +11,9 @@ export default function FileUploader({ classCode, folderId, onDone }) {
     const f = e.target.files[0];
     if (!f) return;
     setStatus("Upload...");
-    const path = classes/${classCode}/${folderId}/${Date.now()}_${f.name};
+    const path = `classes/${classCode}/${folderId}/${Date.now()}_${f.name}`;
     const url = await uploadFileToPath(path, f);
-    await addFileDoc(classCode, folderId, { name: f.name, url, type: f.type, storageName: ${Date.now()}_${f.name} });
+    await addFileDoc(classCode, folderId, { name: f.name, url, type: f.type, storageName: path});
     setStatus("Fertig");
     fileInput.current.value = "";
     onDone && onDone();
@@ -29,10 +29,10 @@ export default function FileUploader({ classCode, folderId, onDone }) {
     if (imageBatch.current.length === 0) return alert("Keine Bilder ausgewählt");
     setStatus("Erzeuge PDF...");
     const blob = await imagesToPdfBlob(imageBatch.current);
-    const filename = photos_${Date.now()}.pdf;
-    const path = classes/${classCode}/${folderId}/${Date.now()}_${filename};
+    const filename = `photos_${Date.now()}.pdf`;
+    const path = `classes/${classCode}/${folderId}/${Date.now()}_${filename}`;
     const url = await uploadBlobToPath(path, blob);
-    await addFileDoc(classCode, folderId, { name: filename, url, type: "application/pdf", storageName: ${Date.now()}_${filename} });
+    await addFileDoc(classCode, folderId, { name: filename, url: url, type: "application/pdf", storageName: path });
     imageBatch.current = [];
     setStatus("Fertig");
     onDone && onDone();
