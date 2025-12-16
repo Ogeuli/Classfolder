@@ -1,41 +1,64 @@
-import React, { useState } from "react";
+// src/pages/Login.jsx (DEBUG / WORKING version)
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { generateClassCode } from "../utils/generateClassCode";
-import { createClass, classExists } from "../services/firestoreService";
 
 export default function Login() {
+  console.log("Login.jsx mounted");
+  const navigate = useNavigate();
   const [name, setName] = useState("");
   const [code, setCode] = useState("");
-  const navigate = useNavigate();
 
-  async function handleJoin() {
-    if (!name) return alert("Bitte Namen eingeben.");
-    if (!code) return alert("Bitte Klassen-Code eingeben.");
-    const exists = await classExists(code);
-    if (!exists) return alert("Klasse nicht gefunden.");
-    localStorage.setItem("m3c_user", JSON.stringify({ name, code }));
-    navigate("/home");
-  }
-
-  async function handleCreate() {
-    if (!name) return alert("Bitte Namen eingeben.");
-    const newCode = generateClassCode();
-    await createClass(newCode, `${name}'s Klasse`, name); 
-      localStorage.setItem("m3c_user", JSON.stringify({ name, code: newCode }));
-    alert("Neue Klasse erstellt: " + newCode + "\nTeile den Code mit Mitschülern.");
-    navigate("/home");
-  }
+  useEffect(() => {
+    // show current location for debug
+    console.log("Current path:", window.location.pathname);
+  }, []);
 
   return (
-    <div className="page-login" style={{padding:24}}>
-      <div className="login-card">
-        <h1>Klassenspeicher</h1>
-        <input placeholder="Dein Name" value={name} onChange={e=>setName(e.target.value)} />
-        <input placeholder="Klassen-Code (wenn beitreten)" value={code} onChange={e=>setCode(e.target.value)} />
-        <div style={{display:"flex", gap:8, marginTop:12}}>
-          <button className="btn primary" onClick={handleJoin}>Beitreten</button>
-          <button className="btn" onClick={handleCreate}>Neue Klasse</button>
-        </div>
+    <div style={{ padding: 40 }}>
+      <h1>Login (Debug)</h1>
+
+      <div style={{ marginTop: 20 }}>
+        <label>Name:</label>
+        <input
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          style={{ display: "block", width: 300, marginTop: 8 }}
+        />
+      </div>
+
+      <div style={{ marginTop: 20 }}>
+        <label>Klassen-Code:</label>
+        <input
+          value={code}
+          onChange={(e) => setCode(e.target.value)}
+          style={{ display: "block", width: 300, marginTop: 8 }}
+        />
+      </div>
+
+      <div style={{ marginTop: 30 }}>
+        <button
+          onClick={() => {
+            console.log("DEBUG: join clicked");
+            if (!name || !code) {
+              alert("Bitte Name und Code eingeben");
+              return;
+            }
+            localStorage.setItem("m3c_user", JSON.stringify({ name, code }));
+            navigate("/home");
+          }}
+          style={{ marginRight: 10 }}
+        >
+          Test Anmelden
+        </button>
+
+        <button
+          onClick={() => {
+            console.log("DEBUG: create-class clicked");
+            navigate("/create-class");
+          }}
+        >
+          Debug: Neue Klasse erstellen (navigate)
+        </button>
       </div>
     </div>
   );

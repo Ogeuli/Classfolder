@@ -13,9 +13,12 @@ import { storage, db } from "./firebaseService";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 /** Classes collection: key = classCode */
-export async function createClass(code, name, owner) {
+export async function createClass(code) {
   const ref = doc(db, "classes", code);
-  await setDoc(ref, { name, owner, createdAt: serverTimestamp() });
+  await setDoc(ref, {
+    code: code,
+    createdAt: serverTimestamp()
+  });
 }
 
 /** check if class exists */
@@ -61,21 +64,19 @@ export async function getFileDoc(classCode, folderId, fileId) {
 // CLASS JOINING
 // ======================
 export async function joinClass(code, name) {
-  // Prüfe, ob die Klasse existiert
   const classRef = doc(db, "classes", code);
   const classSnap = await getDoc(classRef);
 
   if (!classSnap.exists()) {
-    throw new Error("Diese Klasse existiert nicht");
+    // Klasse existiert nicht → return false
+    return false;
   }
 
-  // User-Objekt speichern
-  const userObj = { name, code };
-
-  localStorage.setItem("m3c_user", JSON.stringify(userObj));
-
+  // Klasse existiert → Benutzer speichern
+  localStorage.setItem("m3c_user", JSON.stringify({ name, code }));
   return true;
 }
+
 // ======================
 // UPLOAD DRAWING
 // ======================

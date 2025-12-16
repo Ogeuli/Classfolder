@@ -11,38 +11,45 @@ export default function CreateClass() {
   const navigate = useNavigate();
 
   async function handleSubmit(e) {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (!name.trim() || !code.trim()) {
-      setError("Bitte Name und Klassencode eingeben.");
-      return;
-    }
-
-    setLoading(true);
-    setError("");
-
-    try {
-      const classExists = await joinClass(code, name);
-
-      if (!classExists) {
-        // Wenn Klasse nicht existiert → erstelle neue
-        await createClass(code);
-      }
-
-      // User lokal speichern
-      localStorage.setItem(
-        "m3c_user",
-        JSON.stringify({ name, code })
-      );
-
-      navigate("/home");
-    } catch (err) {
-      console.error(err);
-      setError("Fehler: " + err.message);
-    } finally {
-      setLoading(false);
-    }
+  if (!name.trim() || !code.trim()) {
+    setError("Bitte Name und Klassencode eingeben.");
+    return;
   }
+
+  setLoading(true);
+  setError("");
+
+  try {
+    console.log("DEBUG: handleSubmit gestartet", { name, code });
+
+    // 1) joinClass aufrufen
+    console.log("DEBUG: vor joinClass");
+    const exists = await joinClass(code, name);
+    console.log("DEBUG: joinClass zurück:", exists);
+
+    if (!exists) {
+      console.log("DEBUG: Klasse existiert nicht, rufe createClass auf");
+      await createClass(code);
+      console.log("DEBUG: createClass erfolgreich");
+      // User speichern
+      localStorage.setItem("m3c_user", JSON.stringify({ name, code }));
+      console.log("DEBUG: user in localStorage geschrieben");
+    } else {
+      console.log("DEBUG: Klasse existierte bereits – user gespeichert");
+    }
+
+    console.log("DEBUG: navigate /home");
+    navigate("/home");
+  } catch (err) {
+    console.error("DEBUG: Fehler in handleSubmit:", err);
+    setError("Fehler: " + (err?.message || String(err)));
+  } finally {
+    setLoading(false);
+    console.log("DEBUG: handleSubmit fertig - loading false");
+  }
+}
 
   return (
     <div style={styles.container}>
